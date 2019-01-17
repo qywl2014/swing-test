@@ -1,7 +1,11 @@
 package com.wulang.utils;
 
+import com.sun.deploy.panel.GeneralPanel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GeneratePanel {
     public JPanel generateJpanel(){
@@ -127,6 +131,20 @@ public class GeneratePanel {
         generateButton.setSize(200,200);
         jPanel.add(generateButton);
 
+        JComboBox jComboBox=new JComboBox();
+        jComboBox.addItem("abc");
+        jComboBox.addItem("123");
+        jPanel.add(jComboBox);
+
+        generateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("title2");
+                frame.setBounds(20, 20, 500, 500);
+                frame.setVisible(true);
+                frame.add(generateDatabaseConfigJpanel());
+            }
+        });
         return jPanel;
     }
 }
