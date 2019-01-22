@@ -1,11 +1,16 @@
 package com.wulang.utils;
 
 import com.sun.deploy.panel.GeneralPanel;
+import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
+import com.wulang.domain.DatabaseConfig;
+import javafx.beans.property.adapter.JavaBeanLongPropertyBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneratePanel {
     public JPanel generateJpanel(){
@@ -22,21 +27,21 @@ public class GeneratePanel {
         JPanel jPanel=new JPanel();
         jPanel.setLayout(new GridLayout(5,1));
 
-        JPanel hostPanel=new JPanel();
+        JPanel hostPanel=new JPanel(new GridLayout(1,2));
         JLabel hostLabel=new JLabel("host");
-        JTextField hostText=new JTextField(9);
+        JTextField hostText=new JTextField(5);
         hostPanel.add(hostLabel);
         hostPanel.add(hostText);
         jPanel.add(hostPanel);
 
-        JPanel portPanel=new JPanel();
+        JPanel portPanel=new JPanel(new GridLayout(1,2));
         JLabel portLabel=new JLabel("port");
         JTextField postText=new JTextField(5);
         portPanel.add(portLabel);
         portPanel.add(postText);
         jPanel.add(portPanel);
 
-        JPanel dataBasePanel=new JPanel();
+        JPanel dataBasePanel=new JPanel(new GridLayout(1,2));
         JLabel dataBaseLabel=new JLabel("数据库名称");
         JTextField dateBaseText=new JTextField(5);
         dataBasePanel.add(dataBaseLabel);
@@ -127,7 +132,7 @@ public class GeneratePanel {
         JPanel jPanel=new JPanel();
         jPanel.setLayout(new GridLayout(3,1));
 
-        JButton generateButton=new JButton("生成");
+        JButton generateButton=new JButton("编辑数据库配置");
         generateButton.setSize(200,200);
         jPanel.add(generateButton);
 
@@ -142,9 +147,43 @@ public class GeneratePanel {
                 JFrame frame = new JFrame("title2");
                 frame.setBounds(20, 20, 500, 500);
                 frame.setVisible(true);
-                frame.add(generateDatabaseConfigJpanel());
+                frame.add(generateDatabaseConfigListPanel(1));
             }
         });
         return jPanel;
+    }
+
+    private JPanel generateDatabaseConfigListPanel(int rows){
+        final JPanel jPanel=new JPanel(new GridLayout(rows,5));
+        DatabaseConfig databaseConfig=new DatabaseConfig();
+        databaseConfig.setHost("host");
+        databaseConfig.setPort("port");
+        databaseConfig.setDatabaseName("数据库名");
+        databaseConfig.setUserName("用户名");
+        databaseConfig.setPassword("密码");
+        addLabelToPanel(jPanel,databaseConfig);
+        return jPanel;
+    }
+
+    private JPanel generateLeftPanel(String text){
+
+        JPanel jPanel=new JPanel();
+        JLabel jLabel=new JLabel(text);
+        jPanel.add(jLabel);
+        return jPanel;
+    }
+
+    private void addLabelToPanel(JPanel jPanel,DatabaseConfig databaseConfig){
+        List<JLabel> jLabelList=new ArrayList<>();
+        jLabelList.add(new JLabel(databaseConfig.getHost()));
+        jLabelList.add(new JLabel(databaseConfig.getPort()));
+        jLabelList.add(new JLabel(databaseConfig.getDatabaseName()));
+        jLabelList.add(new JLabel(databaseConfig.getUserName()));
+        jLabelList.add(new JLabel(databaseConfig.getPassword()));
+
+        for(JLabel jLabel:jLabelList){
+            jLabel.setForeground(Color.red);
+            jPanel.add(jLabel);
+        }
     }
 }
