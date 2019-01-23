@@ -3,61 +3,83 @@ package com.wulang.utils;
 import com.sun.deploy.panel.GeneralPanel;
 import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import com.wulang.domain.DatabaseConfig;
+import com.wulang.domain.ModulePath;
+import com.wulang.domain.MybatisGeneratorConfig;
 import javafx.beans.property.adapter.JavaBeanLongPropertyBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeneratePanel {
+
+    private JTextField hostText=new JTextField(5);
+    private JTextField portText=new JTextField(5);
+    private JTextField dateBaseText=new JTextField(5);
+    private JTextField userNameText=new JTextField(5);
+    private JTextField passWordText=new JTextField(5);
+
+    private JTextField mapperText=new JTextField(9);
+    private JTextField modelText=new JTextField(9);
+    private JTextField xmlText=new JTextField(9);
+
+    private JTextField tableText=new JTextField(9);
+    private JTextField schemaText=new JTextField(9);
+    private JTextField domainObjectText=new JTextField(9);
+    private JTextField mapperNameText=new JTextField(9);
+
+    private JPanel jPanelRoot=new JPanel();
+
     public JPanel generateJpanel(){
-        JPanel jPanel=new JPanel();
-        jPanel.setLayout(new GridLayout(1,4));
-        jPanel.add(generateDatabaseConfigJpanel());
-        jPanel.add(generatePackageConfigPanel());
-        jPanel.add(generateTableConfigPanel());
-        jPanel.add(generateOperatePanel());
-        return jPanel;
+        jPanelRoot.setLayout(new GridLayout(1,4));
+        jPanelRoot.add(generateDatabaseConfigJpanel());
+        jPanelRoot.add(generatePackageConfigPanel());
+        jPanelRoot.add(generateTableConfigPanel());
+        jPanelRoot.add(generateOperatePanel());
+        return jPanelRoot;
     }
 
     private JPanel generateDatabaseConfigJpanel(){
         JPanel jPanel=new JPanel();
         jPanel.setLayout(new GridLayout(5,1));
 
-        JPanel hostPanel=new JPanel(new GridLayout(1,2));
+        JPanel hostPanel=new JPanel();
         JLabel hostLabel=new JLabel("host");
-        JTextField hostText=new JTextField(5);
+        hostText.setText(null);
+        hostText.setText("123");
         hostPanel.add(hostLabel);
         hostPanel.add(hostText);
         jPanel.add(hostPanel);
 
-        JPanel portPanel=new JPanel(new GridLayout(1,2));
+        JPanel portPanel=new JPanel();
         JLabel portLabel=new JLabel("port");
-        JTextField postText=new JTextField(5);
+
         portPanel.add(portLabel);
-        portPanel.add(postText);
+        portPanel.add(portText);
         jPanel.add(portPanel);
 
-        JPanel dataBasePanel=new JPanel(new GridLayout(1,2));
+        JPanel dataBasePanel=new JPanel();
         JLabel dataBaseLabel=new JLabel("数据库名称");
-        JTextField dateBaseText=new JTextField(5);
+
         dataBasePanel.add(dataBaseLabel);
         dataBasePanel.add(dateBaseText);
         jPanel.add(dataBasePanel);
 
         JPanel userNamePanel=new JPanel();
         JLabel userNameLabel=new JLabel("用户名");
-        JTextField userNameText=new JTextField(5);
+
         userNamePanel.add(userNameLabel);
         userNamePanel.add(userNameText);
         jPanel.add(userNamePanel);
 
         JPanel passWordPanel=new JPanel();
         JLabel passWordLabel=new JLabel("密码");
-        JTextField passWordText=new JTextField(5);
+
         passWordPanel.add(passWordLabel);
         passWordPanel.add(passWordText);
         jPanel.add(passWordPanel);
@@ -71,21 +93,21 @@ public class GeneratePanel {
 
         JPanel mapperPanel=new JPanel();
         JLabel mapperLabel=new JLabel("mapper接口包名");
-        JTextField mapperText=new JTextField(9);
+
         mapperPanel.add(mapperLabel);
         mapperPanel.add(mapperText);
         jPanel.add(mapperPanel);
 
         JPanel modelPanel=new JPanel();
         JLabel modelLabel=new JLabel("model类包名");
-        JTextField modelText=new JTextField(9);
+
         modelPanel.add(modelLabel);
         modelPanel.add(modelText);
         jPanel.add(modelPanel);
 
         JPanel xmlPanel=new JPanel();
         JLabel xmlLabel=new JLabel("xml文件包名");
-        JTextField xmlText=new JTextField(9);
+
         xmlPanel.add(xmlLabel);
         xmlPanel.add(xmlText);
         jPanel.add(xmlPanel);
@@ -99,28 +121,28 @@ public class GeneratePanel {
 
         JPanel tablePanel=new JPanel();
         JLabel tableLabel=new JLabel("表名");
-        JTextField tableText=new JTextField(9);
+
         tablePanel.add(tableLabel);
         tablePanel.add(tableText);
         jPanel.add(tablePanel);
 
         JPanel schemaPanel=new JPanel();
         JLabel schemaLabel=new JLabel("schema名");
-        JTextField schemaText=new JTextField(9);
+
         schemaPanel.add(schemaLabel);
         schemaPanel.add(schemaText);
         jPanel.add(schemaPanel);
 
         JPanel domainObjectPanel=new JPanel();
         JLabel domainObjectLabel=new JLabel("domain对象名");
-        JTextField domainObjectText=new JTextField(9);
+
         domainObjectPanel.add(domainObjectLabel);
         domainObjectPanel.add(domainObjectText);
         jPanel.add(domainObjectPanel);
 
         JPanel mapperNamePanel=new JPanel();
         JLabel mapperNameLabel=new JLabel("mapper接口名");
-        JTextField mapperNameText=new JTextField(9);
+
         mapperNamePanel.add(mapperNameLabel);
         mapperNamePanel.add(mapperNameText);
         jPanel.add(mapperNamePanel);
@@ -129,25 +151,65 @@ public class GeneratePanel {
     }
 
     private JPanel generateOperatePanel(){
-        JPanel jPanel=new JPanel();
-        jPanel.setLayout(new GridLayout(3,1));
+        JPanel jPanel=new JPanel(new GridLayout(3,1));
 
-        JButton generateButton=new JButton("编辑数据库配置");
-        generateButton.setSize(200,200);
-        jPanel.add(generateButton);
+        JPanel dababaseSelectPanel=new JPanel();
+        JLabel dababaseSelectLabel=new JLabel("选择数据库");
+        JComboBox<String> dababaseSelectComboBox=new JComboBox<>();
+        dababaseSelectComboBox.addItem("Postgresql");
+        dababaseSelectComboBox.addItem("Mysql");
+        dababaseSelectComboBox.setEditable(false);
 
-        JComboBox jComboBox=new JComboBox();
-        jComboBox.addItem("abc");
-        jComboBox.addItem("123");
-        jPanel.add(jComboBox);
+        dababaseSelectPanel.add(dababaseSelectLabel);
+        dababaseSelectPanel.add(dababaseSelectComboBox);
+        jPanel.add(dababaseSelectPanel);
+
+        JPanel modelSelectPanel=new JPanel();
+        JLabel modelSelectLabel=new JLabel("选择模块");
+
+        JComboBox<ModulePath> modelSelectComboBox=new JComboBox<>();
+        List<ModulePath> modulePathList=new ArrayList<>();
+        ModulePath modulePath1=new ModulePath();
+        modulePath1.setName("name");
+        modulePath1.setPath("path");
+        modulePathList.add(modulePath1);
+        for(ModulePath modulePath:modulePathList){
+            modelSelectComboBox.addItem(modulePath);
+        }
+        modelSelectComboBox.setEditable(false);
+
+        modelSelectPanel.add(modelSelectLabel);
+        modelSelectPanel.add(modelSelectComboBox);
+        jPanel.add(modelSelectPanel);
+
+        JPanel generateButtonPanel=new JPanel();
+        JLabel generateButtonLabel=new JLabel("点击按钮生成");
+        JButton generateButton=new JButton("生成");
+
+        generateButtonPanel.add(generateButtonLabel);
+        generateButtonPanel.add(generateButton);
+        jPanel.add(generateButtonPanel);
 
         generateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("title2");
-                frame.setBounds(20, 20, 500, 500);
-                frame.setVisible(true);
-                frame.add(generateDatabaseConfigListPanel(1));
+                MybatisGeneratorConfig mybatisGeneratorConfig=new MybatisGeneratorConfig();
+                mybatisGeneratorConfig.setMapperPackage(mapperText.getText());
+                mybatisGeneratorConfig.setModelPackage(modelText.getText());
+                mybatisGeneratorConfig.setXmlPackage(xmlText.getText());
+
+                mybatisGeneratorConfig.setTable(tableText.getText());
+                mybatisGeneratorConfig.setSchema(schemaText.getText());
+                mybatisGeneratorConfig.setMapperName(mapperNameText.getText());
+                mybatisGeneratorConfig.setDomainObjectName(domainObjectText.getText());
+
+                mybatisGeneratorConfig.setHost(hostText.getText());
+                mybatisGeneratorConfig.setPort(portText.getText());
+                mybatisGeneratorConfig.setDatabaseName(dateBaseText.getText());
+                mybatisGeneratorConfig.setUserName(userNameText.getText());
+                mybatisGeneratorConfig.setPassword(passWordText.getText());
+                String str=MybatisGeneratorUtil.generate(mybatisGeneratorConfig);
+                JOptionPane.showMessageDialog(jPanelRoot,str,"执行结果",JOptionPane.PLAIN_MESSAGE);
             }
         });
         return jPanel;

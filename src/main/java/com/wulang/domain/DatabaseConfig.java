@@ -1,15 +1,15 @@
 package com.wulang.domain;
 
 public class DatabaseConfig {
-    private String host;
+    protected String host;
 
-    private String port;
+    protected String port;
 
-    private String databaseName;
+    protected String databaseName;
 
-    private String userName;
+    protected String userName;
 
-    private String password;
+    protected String password;
 
     public String getHost() {
         return host;

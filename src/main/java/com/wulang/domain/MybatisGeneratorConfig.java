@@ -72,4 +72,22 @@ public class MybatisGeneratorConfig extends DatabaseConfig {
     public void setDomainObjectName(String domainObjectName) {
         this.domainObjectName = domainObjectName;
     }
+
+    @Override
+    public String toString() {
+        return "MybatisGeneratorConfig{" +
+                "mapperPackage='" + mapperPackage + '\'' +
+                ", modelPackage='" + modelPackage + '\'' +
+                ", xmlPackage='" + xmlPackage + '\'' +
+                ", table='" + table + '\'' +
+                ", schema='" + schema + '\'' +
+                ", domainObjectName='" + domainObjectName + '\'' +
+                ", mapperName='" + mapperName + '\'' +
+                ", host='" + host + '\'' +
+                ", port='" + port + '\'' +
+                ", databaseName='" + databaseName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
